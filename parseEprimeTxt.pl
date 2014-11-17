@@ -10,14 +10,17 @@ my $level=0;
 my %a;
 
 my $subj="";
+my $exp="";
 my $date="";
 my $SessionTime="";
 
-my @columns=qw/	Procedure	Grid1.OnsetTime	ITI	Load	Block	Cue1_img	Cue2_img	Cue3_img	Target_img	Target.RT	Target.RTTime	Target.ACC/;
+my @columns=qw/	Procedure	Grid1.OnsetTime	Delay.OnsetTime	Target.OnsetTime	Delay_time	ITI		Load	Block	Cue1_img	Cue2_img	Cue3_img	Target_img	Target.RT	Target.RTTime  Target.ACC	Match/;
 
-say join "\t", "subj","date","SessionTime","level",@columns;
+say join "\t", "subj","date","Experiment","SessionTime","level",@columns;
 while(<>){
    $subj=$1       if /Subject: (\d+)/;
+   #Experiment: SpatialWM_v1_run2
+   $exp=$1        if /^Experiment: multimodalWM_fMRI_v1_run(.*)/;
    $date="$3$1$2" if /SessionDate: (\d{2})-(\d{2})-(\d{4})/;
    $SessionTime=$1 if/SessionTime: (.*)/;
    
@@ -40,7 +43,7 @@ while(<>){
    if(/LogFrame End/) {
       my @vals=map {$a{$_}||""} @columns;
       next if $#vals<0 ;
-      say join "\t", $subj,$date,$SessionTime,$level,@vals;
+      say join "\t", $subj,$date,$exp,$SessionTime,$level,@vals if $subj;
    }
    $a{$1}=$2 if /^\s+(.*):(.*)/;
    print "$level $_" if 0

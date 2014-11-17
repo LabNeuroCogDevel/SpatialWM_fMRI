@@ -3,25 +3,13 @@
 # 
 
 library(plyr)
-df<-read.table('alltimes2.txt',header=T,sep="\t")
+df<-read.table('alltimes_withExperiment.txt',header=T,sep="\t")
 df <- df[!is.na(df$subj),]
-
-if length(unique(paste(df$subj,df$SessionTime))) != length(unique(df$SessionTime))
- error('session times repeat per subject, cannot do my trick')
-
-# relevel session time per subject to get run order number
-dfrn<-ddply(df,.(subj),function(x){
-   newlevels<-factor(x$SessionTime,levels=sort(as.character(unique(x$SessionTime))))
-   x$runnum <- as.numeric(newlevels)
-   x
-})
-
-# inspect run numbers for bad sort (looks good)
-checkrunnums <- ddply(dfrn,.(subj,SessionTime),function(x){c(runnum=paste(unique(x$runnum)))})
+df$runno <- substr(as.character(df$Experiment),1,1)
 
 l <-
-  dlply(dfrn,.(subj), function(x){
-     dlply(x,.(runnum), function(y){
+  dlply(df,.(subj), function(x){
+     dlply(x,.(runno), function(y){
         dly<-as.numeric(as.character(y$Delay_time))
         dly<-dly[!is.na(dly)]
      })
@@ -29,10 +17,12 @@ l <-
 # l[["10662"]][["1"]]
 
 # look at all run 1s
-run1s <- sapply(l,'[[',1)
+run <- sapply(l,'[[','4')
+run[ sapply(run,is.null) | sapply(run,length)!=36 ] <- NULL # remove nulls and weird runs
 # see how many have the same delay length for that trial
-apply(run1s,1,function(x){r<-rle(sort(x)); rbind(r$values,r$lengths)})
-
+#apply(run1s,1,function(x){r<-rle(sort(x)); rbind(r$values,r$lengths)})
+tab <-sapply(run,unlist) 
+apply(tab,1,function(x){r<-rle(sort(x));rbind(r$values,r$lengths)})
 
 # write out files
 for(subj in names(l)){

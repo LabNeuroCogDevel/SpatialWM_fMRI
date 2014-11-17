@@ -1,4 +1,8 @@
+
 # Get Data
+see `Makefile`
+
+## Trial Data
 
 `./00_EprimeLogToLargeTxt.bash`
 

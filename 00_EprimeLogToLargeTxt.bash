@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-outname=alltimes_withExperiment_$(date +%F).txt
+outname=alltimes_withExperiment.txt
 ./parseEprimeTxt.pl data/multimodalWM_fMRI* > $outname
 # get some stats
 R --vanilla <<EOF 

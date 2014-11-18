@@ -1,10 +1,15 @@
-# this fifunction generates a matrix of trial-to-trial gridonset to gridonset times.
-# each column is a run (1 to 4)
-# rows are trial num
-# N.B. expects to be run in same directory as alltimes_withExperiment.txt
-#     or given the file name
-# e.g. ost<-getGridOffsetPerRun('path/to/textfile.txt')
-#      ost<-getGridOffsetPerRun() # if in same directory
+#' get time between trials by diffing Grid onset 
+#'
+#' this function generates a matrix of trial-to-trial gridonset to gridonset times.
+#' each column is a run (1 to 4)
+#' rows are trial num
+#' N.B. expects to be run in same directory as alltimes_withExperiment.txt
+#'     or given the file name
+#' @param datafile all-subject eprime timing/log as a tab delimited file
+#' @export
+#' @examples
+#'  ost<-getGridOffsetPerRun('path/to/textfile.txt')
+#'  ost<-getGridOffsetPerRun() # if in same directory
 
 
 getGridOffsetTimes <- function(datafile='alltimes_withExperiment.txt') {

@@ -1,0 +1,10 @@
+Package: MMSWM
+Title: Exspose functions for MultiModal spatial working memory analysis
+Version: 0.1
+Authors@R: "Will Foran <willforan+upmc@gmail.com> [aut, cre]"
+Description: Package some functions that were useful in analysing and parsing
+    EPrime data from MiltiModal Year2? spatial workign memory task by DS
+Depends:
+    R (>= 3.1.2)
+License: GPL
+LazyData: true
